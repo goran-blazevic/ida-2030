@@ -1,0 +1,21 @@
+{
+  "name": "ida-2030",
+  "workers_dev": true,
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": { "directory": "./public" },
+  "ai": { "binding": "AI" },
+  "vectorize": [
+    { "binding": "VECTORIZE", "index_name": "gov-docs" }
+  ],
+  "d1_databases": [
+    { "binding": "DB", "database_name": "gov-db", "database_id": "09159317-1be6-474e-bb10-94e7d0aeecd4" }
+  ],
+  "vars": {
+    "AWS_REGION": "eu-central-1",
+    "BEDROCK_MODEL_ID": "PASTE_INFERENCE_PROFILE_ID",
+    "AI_GATEWAY_ID": "gov-gw"
+  },
+  "observability": { "enabled": true }
+}

@@ -1,0 +1,6 @@
+# copy to .dev.vars for local dev (never commit .dev.vars)
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+ELEVENLABS_API_KEY=
+ELEVENLABS_VOICE_ID=
+ADMIN_TOKEN=change-me-to-a-long-random-string

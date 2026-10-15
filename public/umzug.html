@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Umzug · ida 2030</title>
+  <meta name="description" content="ida 2030: digitale Verwaltungsassistenz (Hackathon-Prototyp)">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/assets/css/app.css">
+</head>
+<body>
+  <div id="ida-header"></div>
+  <main id="main" tabindex="-1">
+
+    <div class="container-xl">
+      <header class="page-head">
+        <span class="kicker" data-i18n="nav_moving"></span>
+        <h1 class="section-title" data-i18n="mv_title"></h1>
+        <p class="lead" data-i18n="mv_sub"></p>
+      </header>
+
+      <div class="row g-4">
+        <div class="col-lg-5">
+          <form id="mv-form" class="ida-card no-explain" novalidate>
+            <h2 class="h4 mb-3" data-i18n="mv_form"></h2>
+            <p class="small text-muted mb-1" data-i18n="current_address"></p>
+            <p class="fw-bold" id="mv-current">–</p>
+            <div class="mb-3"><label class="form-label" for="f-street" data-i18n="new_street"></label><input class="form-control" id="f-street" required autocomplete="street-address"></div>
+            <div class="row g-2 mb-3">
+              <div class="col-4"><label class="form-label" for="f-postal" data-i18n="new_postal"></label><input class="form-control" id="f-postal" inputmode="numeric" pattern="\d{4}" maxlength="4" required></div>
+              <div class="col-8"><label class="form-label" for="f-city" data-i18n="new_city"></label><input class="form-control" id="f-city" required></div>
+            </div>
+            <div class="row g-2 mb-3">
+              <div class="col-6"><label class="form-label" for="f-date" data-i18n="move_in"></label><input class="form-control" id="f-date" type="date" required></div>
+              <div class="col-6"><label class="form-label" for="f-type" data-i18n="res_type"></label>
+                <select class="form-select" id="f-type"><option value="main" data-i18n="main"></option><option value="secondary" data-i18n="secondary"></option></select></div>
+            </div>
+            <div class="mb-2"><label class="form-label" for="f-host" data-i18n="host_name"></label><input class="form-control" id="f-host" required></div>
+            <div class="mb-1"><label class="form-label" for="f-hostaddr" data-i18n="host_address"></label><input class="form-control" id="f-hostaddr" required></div>
+            <p class="small text-muted"><i class="bi bi-info-circle" aria-hidden="true"></i> <span data-i18n="host_hint"></span></p>
+            <fieldset class="mt-3"><legend class="h6" data-i18n="extras"></legend>
+              <div class="form-check"><input class="form-check-input" type="checkbox" id="x-car"><label class="form-check-label" for="x-car" data-i18n="has_car"></label></div>
+              <div class="form-check ms-4 d-none" id="x-plate-wrap"><input class="form-check-input" type="checkbox" id="x-plate"><label class="form-check-label" for="x-plate" data-i18n="plate_changes"></label></div>
+              <div class="form-check"><input class="form-check-input" type="checkbox" id="x-dog"><label class="form-check-label" for="x-dog" data-i18n="has_dog"></label></div>
+              <div class="form-check"><input class="form-check-input" type="checkbox" id="x-emp"><label class="form-check-label" for="x-emp" data-i18n="employed"></label></div>
+              <div class="form-check"><input class="form-check-input" type="checkbox" id="x-ams"><label class="form-check-label" for="x-ams" data-i18n="unemployed"></label></div>
+              <div class="form-check"><input class="form-check-input" type="checkbox" id="x-stu"><label class="form-check-label" for="x-stu" data-i18n="student"></label></div>
+              <div class="d-flex align-items-center gap-2 mt-2"><label class="form-label mb-0" for="x-kids" data-i18n="children"></label><input class="form-control" style="max-width:6rem" id="x-kids" type="number" min="0" max="10" value="0"></div>
+            </fieldset>
+            <button class="btn btn-rot btn-lg w-100 mt-4" type="submit"><i class="bi bi-magic" aria-hidden="true"></i> <span data-i18n="mv_build"></span></button>
+          </form>
+        </div>
+
+        <div class="col-lg-7">
+          <section id="plan" aria-live="polite" hidden>
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+              <div>
+                <h2 class="h3 mb-1" data-i18n="plan_title"></h2>
+                <div class="d-flex align-items-center gap-2 small text-muted"><span id="plan-count"></span></div>
+              </div>
+              <div class="stamp" id="plan-stamp"><span class="stamp-label" data-i18n="plan_deadline"></span><span class="stamp-date" id="plan-deadline"></span></div>
+            </div>
+            <div class="progress plan-progress mb-4" role="progressbar" aria-label="Fortschritt"><div class="progress-bar" id="plan-bar" style="width:0%"></div></div>
+
+            <div class="lane lane-ida mb-3">
+              <div class="lane-head"><i class="bi bi-stars" aria-hidden="true"></i><div><h3 data-i18n="lane_ida"></h3><p data-i18n="lane_ida_d"></p></div></div>
+              <div id="lane-ida"></div>
+              <div id="notify-box" class="ida-card mt-2 d-none">
+                <div class="form-check mb-3"><input class="form-check-input" type="checkbox" id="consent"><label class="form-check-label fw-bold" for="consent" data-i18n="consent_notify"></label></div>
+                <button class="btn btn-ink w-100" id="notify-btn" disabled><i class="bi bi-send-check" aria-hidden="true"></i> <span data-i18n="notify_btn"></span></button>
+                <p class="small text-muted mt-2 mb-0" data-i18n="zmr_note"></p>
+              </div>
+            </div>
+            <div class="row g-3">
+              <div class="col-md-5"><div class="lane lane-auto"><div class="lane-head"><i class="bi bi-check2-circle" aria-hidden="true"></i><div><h3 data-i18n="lane_auto"></h3><p data-i18n="lane_auto_d"></p></div></div><div id="lane-auto"></div></div></div>
+              <div class="col-md-7"><div class="lane lane-you"><div class="lane-head"><i class="bi bi-person-check" aria-hidden="true"></i><div><h3 data-i18n="lane_you"></h3><p data-i18n="lane_you_d"></p></div></div><div id="lane-you"></div></div></div>
+            </div>
+          </section>
+          <div id="plan-empty" class="ida-card text-center text-muted py-5"><i class="bi bi-signpost-split fs-1 text-rot" aria-hidden="true"></i><p class="mt-3 mb-0" data-i18n="mv_sub"></p></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div id="ida-footer"></div>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/i18n.js"></script>
+  <script src="/assets/js/common.js"></script>
+  <script src="/assets/js/umzug.js"></script>
+</body>
+</html>
